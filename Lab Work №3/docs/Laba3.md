@@ -9,7 +9,7 @@
 # Применение основных принципов разработки
 - DRY
   В данном случае выделена фабричная статичная функция, чтобы на основе любого HugeDoubleArray можно было создать HugeDoubleArrayReader.
-  'public static HugeDoubleArrayReader Create(HugeDoubleArray hugeArray)
+        'public static HugeDoubleArrayReader Create(HugeDoubleArray hugeArray)
         {
             Contract.Requires(hugeArray != null);
 
