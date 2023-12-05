@@ -9,7 +9,7 @@
 # Применение основных принципов разработки
 - DRY
   В данном случае выделена фабричная статичная функция, чтобы на основе любого HugeDoubleArray можно было создать HugeDoubleArrayReader.
-        ```c#
+  ```c#
   public static HugeDoubleArrayReader Create(HugeDoubleArray hugeArray)
         {
             Contract.Requires(hugeArray != null);
@@ -29,7 +29,8 @@
             {
                 lockObject.ExitWriteLock();
             }
-        }```
+        }
+  ```
 
   - YAGNI
     В данном случае матрица только 2Д, и не рассматривается ситуация для создания трехмерной матрицы, так как в отрисовке будет только 2Д. We are not gonna need it.
