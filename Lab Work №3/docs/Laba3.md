@@ -10,7 +10,7 @@
 - DRY
   В данном случае выделена фабричная статичная функция, чтобы на основе любого HugeDoubleArray можно было создать HugeDoubleArrayReader.
   ```c#
-  public static HugeDoubleArrayReader Create(HugeDoubleArray hugeArray)
+        public static HugeDoubleArrayReader Create(HugeDoubleArray hugeArray)
         {
             Contract.Requires(hugeArray != null);
 
@@ -34,7 +34,8 @@
 
   - YAGNI
     В данном случае матрица только 2Д, и не рассматривается ситуация для создания трехмерной матрицы, так как в отрисовке будет только 2Д. We are not gonna need it.
-    'public class Matrix<T>
+    ```c#
+    public class Matrix<T>
     {
         private readonly T[] matrix;
 
@@ -51,11 +52,13 @@
             RowCount = rowCount;
             ColumnCount = columnCount;
             this.matrix = new T[rowCount * columnCount];
-        }'
+        }
+    ```
     
   - KISS
     В данном случае не создается отдельный объект, который будет отвечать за reverse массива. Также не создается иерархия классов для работы с массивом, а просто создается расширения для массива, которое будет возвращать reversed массив.
-    'public static HugeDoubleArray Reverse(this HugeDoubleArray sourceArray)
+    ```c#
+        public static HugeDoubleArray Reverse(this HugeDoubleArray sourceArray)
         {
             Contract.Requires(sourceArray != null);
             Contract.Ensures(Contract.Result<HugeDoubleArray>() != null);
@@ -64,13 +67,15 @@
             using var writer = new HugeDoubleArrayWriter(sourceArray);
 
             return ReverseValues(reader, writer);
-        }'
+        }
+    ```
 
   
 # SOLID:
 - Single Responsibility Principle (Принцип единственной обязанности)
   В следующем кусочке кода, выполняется требования о том, что класс должен иметь лишь одну причину для изменения, так как его придется менять только тогда, когда изменится логика операции Undo для расчета времени по Dt.
-  'internal class ComputeTimeByDtUndo : CanalSetChangedUndo
+  ```c#
+    internal class ComputeTimeByDtUndo : CanalSetChangedUndo
     {
         /// <summary>
         /// Конструктор
@@ -85,11 +90,13 @@
         {
             return process.GetChangedAssociations().Select(a => a.TimeCurve).OfType<Canal>().ToArray();
         }
-    }'
+    }
+  ```
 
 - Open/Closed Principle (Принцип открытости/закрытости)
   Применен принцип: открыт для расширения, закрыт для изменения. Открыто для написания наследников FilteredStructure, и закрыто для изменения и класса ExplorerPropertyModelFactory, и всех наследников FilteredStructure. Нужно написать свой фильтр (FilteredStructure) и передать его в конструктор ExplorerPropertyModelFactory, например, фильтр по типу канала или по его размерности.
-  'public class ExplorerPropertyModelFactory : PropertyModelFactoryBase<ExplorerPropertyModel>
+  ```c#
+    public class ExplorerPropertyModelFactory : PropertyModelFactoryBase<ExplorerPropertyModel>
     {
         private readonly FilteredStructure structure;
 
@@ -115,14 +122,16 @@
         /// Выбранный элемент может или нет быть удален пользователем (убран из выделения)
         /// </summary>
         public bool CanDelete { get; set; }
-    }'
+    }
+  ```
   пример использования:
   - 'var factory = new ExplorerPropertyModelFactory(new Canal1DFilteredStructure(loggingData));'
   - 'var factory = new ExplorerPropertyModelFactory(new FilteredCanalKindStructure(task.LoggingData, Filter));'
 
 - Liskov Substitution Principle (Принцип подстановки Лисков)
   Должна быть возможность вместо базового типа подставить любой его подтип. Если какому-либу полю типа ProcessingTaskForCanal присвоить объект типа WaveSelectionTask, то при вызове метода DoDispose у этого поля, программа не упадет, так как метод DoDispose реализован и самое главное - нужен.
-  'public class ProcessingTaskForCanal<T> : ProcessingTask
+  ```c#
+  public class ProcessingTaskForCanal<T> : ProcessingTask
         where T : Canal
     {
         /// <summary>
@@ -149,8 +158,7 @@
 
             Unsubscribe();
         }
-
-public class WaveSelectionTask : ProcessingTaskForCanal<Canal3D>
+  public class WaveSelectionTask : ProcessingTaskForCanal<Canal3D>
     {
         /// <summary>
         /// Создает задачу с заданным именем
@@ -177,7 +185,7 @@ public class WaveSelectionTask : ProcessingTaskForCanal<Canal3D>
             Parameters.Dispose();
         }
     }
-  '
+  ```
 
 - Interface Segregation Principle (Принцип разделения интерфейсов)
   Клиенты не должны вынужденно зависеть от методов, которыми не пользуются. Классу канала не нужно реализовывать или определять методы для обработки многомерных каналов, поэтому часть методов интерфейса ICanal была перенесена в IMultiCanal, чтобы одномерным каналам не нужно было реализовывать бессмысленную функциональность или оставлять методы пустыми.
@@ -185,13 +193,15 @@ public class WaveSelectionTask : ProcessingTaskForCanal<Canal3D>
 
 - Dependency Inversion Principle (Принцип инверсии зависимостей)
   Модули верхнего уровня не должны зависеть от модулей нижнего уровня. И те и другие должны зависеть от абстракций. В это примере класс PlanshetCanal не зависит от реализации свойства Canal.
-  'public class PlanshetCanal : PlanshetCanalBase
+  ```c#
+  public class PlanshetCanal : PlanshetCanalBase
     {
         /// <summary>
         /// Канал данных.
         /// </summary>
         ICanal Canal { get; }
-  }'
+  }
+  ```
 
 # Дополнительные принципы разработки
 
