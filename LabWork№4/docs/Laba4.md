@@ -343,9 +343,57 @@
     pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
   });
   ```
-
+  
 - Результат тестов:
   ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/abd6422f-f3b2-44df-bfbd-78bccc0caf4b)
+
+
+## Метод DELETE /api/well/{id}
+
+- Этот метод удаляет скважину.
+- Параметры запроса:
+  1. id - идентификатор скважины
+
+- Пример запроса: DELETE /api/well/1
+- Пример ответа:
+  ```json
+  {
+    "message": "Well deleted successfully."
+  }
+  ```
+- Скрин из постмана:
+  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/961269fc-a2b1-4032-b8bd-ad57382f9326)
+
+- Код тестов:
+  ```js
+  pm.test("Response status code is 200", function () {
+    pm.expect(pm.response.code).to.equal(200);
+  });
+  
+  pm.test("Response has the required field 'message'", function () {
+      const responseData = pm.response.json();
+      pm.expect(responseData.message).to.exist;
+  });
+  
+  pm.test("Content-Type header is application/json", function () {
+      pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+  });
+  
+  pm.test("Message is a non-empty string", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, "Message should not be empty");
+  });
+  
+  pm.test("Response body is not empty", function () {
+    const responseData = pm.response.json();
+    pm.expect(responseData).to.not.be.empty;
+  });
+  ```
+
+- Рез-т тестов:
+  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/32cc14e8-e03d-4fe1-a54d-9b78e6d98bb8)
+
 
   
 
