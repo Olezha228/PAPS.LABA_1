@@ -256,24 +256,23 @@
   ```js
   pm.test("Response status code is 200", function () {
     pm.expect(pm.response.code).to.equal(200);
-});
-
-pm.test("Response has the required fields - id, name, and depth", function () {
-    const responseData = pm.response.json();
-    
-    pm.expect(responseData).to.be.an('object');
-    pm.expect(responseData).to.have.property('id');
-    pm.expect(responseData).to.have.property('name');
-    pm.expect(responseData).to.have.property('depth');
-});
-
-pm.test("Name is a non-empty string", function () {
-    const responseData = pm.response.json();
-    
-    pm.expect(responseData).to.be.an('object');
-    pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, "Name should not be empty");
-});
-
+  });
+  
+  pm.test("Response has the required fields - id, name, and depth", function () {
+      const responseData = pm.response.json();
+      
+      pm.expect(responseData).to.be.an('object');
+      pm.expect(responseData).to.have.property('id');
+      pm.expect(responseData).to.have.property('name');
+      pm.expect(responseData).to.have.property('depth');
+  });
+  
+  pm.test("Name is a non-empty string", function () {
+      const responseData = pm.response.json();
+      
+      pm.expect(responseData).to.be.an('object');
+      pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, "Name should not be empty");
+  });
   ```
 
 - рез-тат тестов:
