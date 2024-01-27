@@ -33,6 +33,6 @@ pm.test("Response has correct format and values", function () {
 Скрин из постмана:
 ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/5a0159a2-fadf-44dd-b624-bee01b36916d)
 
-Скрин тестов:
+Скрин рез-тов тестов:
 ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/dc1229bd-c15f-4be6-b276-a76823f18cb8)
 
