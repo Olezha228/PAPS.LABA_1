@@ -35,7 +35,8 @@
   ```
 
 - рез-т тестов:
-  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/dc1229bd-c15f-4be6-b276-a76823f18cb8)
+  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/db035948-326d-4f03-98b6-df022ba04aeb)
+
 
 ## Метод GET /api/well
 - Этот метод возвращает список скважин.
@@ -277,6 +278,80 @@
 
 - рез-тат тестов:
   ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/48cfd71d-11a3-41ec-a822-65e16629b86b)
+
+
+## Метод PUT /api/well/{id}
+
+- Этот метод обновляет информацию о скважине.
+- Параметры запроса:
+  1. id - идентификатор скважины
+  2. name - новое название скважины (в теле запроса)
+ 
+- Пример запроса:
+  ```http
+  PUT /api/well/1
+  Content-Type: application/json
+  
+  {
+    "name": "Updated Well"
+  }
+  ```
+
+- Пример ответа:
+  ```json
+  {
+    "id": 1,
+    "name": "Updated Well",
+    "depth": 1500
+  }
+  ```
+
+- Скрин из постмана:
+  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/c69ee974-fdc1-407f-88ab-8192a1a65d91)
+
+- Код тестов:
+  ```js
+  pm.test("Response status code is 200", function () {
+    pm.response.to.have.status(200);
+  });
+
+  pm.test("Response has the required fields - id, name, and depth", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData).to.be.an('object');
+    pm.expect(responseData).to.have.property('id');
+    pm.expect(responseData).to.have.property('name');
+    pm.expect(responseData).to.have.property('depth');
+  });
+
+  pm.test("Name should be a non-empty string", function () {
+    const responseData = pm.response.json();
+  
+    pm.expect(responseData).to.be.an('object');
+    pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, "Name should not be empty");
+  });
+
+  pm.test("Depth is a non-negative integer", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData).to.be.an('object');
+    pm.expect(responseData.depth).to.be.a('number');
+    pm.expect(responseData.depth).to.be.at.least(0);
+  });
+
+  pm.test("Content-Type header is application/json", function () {
+    pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+  });
+  ```
+
+- Результат тестов:
+  ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/abd6422f-f3b2-44df-bfbd-78bccc0caf4b)
+
+  
+
+
+  
+
 
 
 
