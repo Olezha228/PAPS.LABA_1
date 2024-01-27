@@ -34,7 +34,7 @@
   });
   ```
 
-- Скрин рез-тов тестов:
+- рез-т тестов:
   ![image](https://github.com/Olezha228/PAPS.LABA_1/assets/87082100/dc1229bd-c15f-4be6-b276-a76823f18cb8)
 
 ## Метод GET /api/well
