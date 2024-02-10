@@ -168,3 +168,32 @@ jobs:
         name: MSIX Package
         path: ${{ env.Wap_Project_Directory }}\AppPackages
 ```
+
+## Интеграционные тесты
+```c#
+public class IntegrationTests : IClassFixture<TestFixture<Startup>>
+    {
+        private readonly HttpClient _client;
+
+        public IntegrationTests(TestFixture<Startup> fixture)
+        {
+            _client = fixture.Client;
+        }
+
+        [Fact]
+        public async Task GetRemoteData_ReturnsDataFromProjectA()
+        {
+            // Arrange
+            var request = "/RemoteData";
+
+            // Act
+            var response = await _client.GetAsync(request);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            Assert.Contains("John", responseString); // Assuming ProjectA/Data returns JSON with "Name" field containing "John"
+            Assert.Contains("Age", responseString); // Assuming ProjectA/Data returns JSON with "Age" field
+        }
+    }
+```
