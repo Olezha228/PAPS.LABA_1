@@ -33,10 +33,11 @@ Log log = factory.CreateLog();
 
 В данном коде:
 
-WellLoggingFactory - абстрактный класс, определяющий метод CreateLog(), который должен быть реализован в подклассах.
-GammaRayLogFactory и ResistivityLogFactory - конкретные фабрики, реализующие метод CreateLog() и создающие соответствующие объекты.
-Log - абстрактный класс или интерфейс, представляющий создаваемый объект.
-GammaRayLog и ResistivityLog - конкретные классы, реализующие интерфейс Log.
+- WellLoggingFactory - абстрактный класс, определяющий метод CreateLog(), который должен быть реализован в подклассах.
+- GammaRayLogFactory и ResistivityLogFactory - конкретные фабрики, реализующие метод CreateLog() и создающие соответствующие объекты.
+- Log - абстрактный класс или интерфейс, представляющий создаваемый объект.
+- GammaRayLog и ResistivityLog - конкретные классы, реализующие интерфейс Log.
+
 При использовании фабричного метода создается экземпляр конкретной фабрики (GammaRayLogFactory или ResistivityLogFactory), затем вызывается метод CreateLog(), который создает объект (экземпляр GammaRayLog или ResistivityLog).
 
 ```sql
@@ -100,6 +101,46 @@ public class GeophysicalWellLoggingFactory : WellLoggingAbstractFactory
 WellLoggingAbstractFactory factory = new GeophysicalWellLoggingFactory();
 Log gammaRayLog = factory.CreateGammaRayLog();
 Log resistivityLog = factory.CreateResistivityLog();
+```
+
+Шаблон "Абстрактная фабрика" представляет собой порождающий шаблон проектирования, который предоставляет интерфейс для создания семейств взаимосвязанных или взаимозависимых объектов без указания их конкретных классов.
+
+В данном коде:
+
+- WellLoggingAbstractFactory - абстрактный класс, определяющий методы CreateGammaRayLog() и CreateResistivityLog(), которые должны быть реализованы в подклассах.
+- GeophysicalWellLoggingFactory - конкретная фабрика, реализующая методы создания объектов.
+- Log, GammaRayLog и ResistivityLog - классы, представляющие создаваемые объекты.
+
+При использовании абстрактной фабрики создается экземпляр конкретной фабрики (GeophysicalWellLoggingFactory), затем вызываются методы создания объектов (CreateGammaRayLog() и CreateResistivityLog()), которые создают соответствующие объекты.
+
+Вот UML-диаграмма классов для данного примера:
+```sql
+          +-------------------------+
+          |WellLoggingAbstractFactory|
+          +-------------------------+
+          | [abstract]                        |
+          | +CreateGammaRayLog() |
+          | +CreateResistivityLog() |
+          +-------------------------+
+                   /_\
+                    |
+         +-------------------------+
+         |                                 |
++---------------------------------+    +----------------------------------+
+|GeophysicalWellLoggingFactory |    |OtherWellLoggingFactory |
++---------------------------------+    +----------------------------------+
+| +CreateGammaRayLog()            |    | +CreateGammaRayLog()           |
+| +CreateResistivityLog()          |    | +CreateResistivityLog()         |
++---------------------------------+    +----------------------------------+
+                   /_\                                          /_\
+                    |                                               |
+          +-----------------+                             +-----------------+
+          |       Log               |                             |         Log               |
+          +-----------------+                             +-----------------+
+          +-----------------+                             +-----------------+
+          |  GammaRayLog  |                             |  ResistivityLog   |
+          +-----------------+                             +-----------------+
+
 ```
 
 3. Одиночка (Singleton):
