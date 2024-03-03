@@ -54,24 +54,24 @@ Log log = factory.CreateLog();
 +-----------------+        +------------------+
 |GammaRayLogFactory|     |ResistivityLogFactory|
 +-----------------+        +------------------+
-| +CreateLog()         |      | +CreateLog()          |
+| +CreateLog()    |        | +CreateLog()     |
 +-----------------+        +------------------+
                    /_\
                     |
           +----------------+
-          |        Log                |
+          |        Log     |
           +----------------+
                    /_\
                     |
           +----------------+
-          |GammaRayLog  |
+          | GammaRayLog    |
           +----------------+
-          | +Method()       |
+          | +Method()      |
           +----------------+
           +----------------+
           |ResistivityLog  |
           +----------------+
-          | +Method()       |
+          | +Method()      |
           +----------------+
 
 ```
@@ -118,8 +118,8 @@ Log resistivityLog = factory.CreateResistivityLog();
           +-------------------------+
           |WellLoggingAbstractFactory|
           +-------------------------+
-          | [abstract]                        |
-          | +CreateGammaRayLog() |
+          | [abstract]              |
+          | +CreateGammaRayLog()    |
           | +CreateResistivityLog() |
           +-------------------------+
                    /_\
@@ -127,18 +127,18 @@ Log resistivityLog = factory.CreateResistivityLog();
          +-------------------------+
          |                                 |
 +---------------------------------+    +----------------------------------+
-|GeophysicalWellLoggingFactory |    |OtherWellLoggingFactory |
+|GeophysicalWellLoggingFactory    |    | OtherWellLoggingFactory          |
 +---------------------------------+    +----------------------------------+
-| +CreateGammaRayLog()            |    | +CreateGammaRayLog()           |
-| +CreateResistivityLog()          |    | +CreateResistivityLog()         |
+| +CreateGammaRayLog()            |    | +CreateGammaRayLog()             |
+| +CreateResistivityLog()         |    | +CreateResistivityLog()          |
 +---------------------------------+    +----------------------------------+
                    /_\                                          /_\
                     |                                               |
           +-----------------+                             +-----------------+
-          |       Log               |                             |         Log               |
+          |       Log       |                             |         Log     |
           +-----------------+                             +-----------------+
           +-----------------+                             +-----------------+
-          |  GammaRayLog  |                             |  ResistivityLog   |
+          |  GammaRayLog  |                               | ResistivityLog  |
           +-----------------+                             +-----------------+
 
 ```
